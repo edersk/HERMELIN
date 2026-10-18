@@ -1,5 +1,5 @@
 # =============================================================================
-# zzz.R - Namespace imports and package load hook for MERLIN
+# zzz.R - Namespace imports and package load hook for HERMELIN
 # =============================================================================
 #
 # The @importFrom directives below make every external function used by the

@@ -1,4 +1,4 @@
 library(testthat)
-library(MERLIN)
+library(HERMELIN)
 
-test_check("MERLIN")
+test_check("HERMELIN")

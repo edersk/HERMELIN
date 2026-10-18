@@ -1,6 +1,6 @@
-#' MERLIN: Mutation-Enriched RNA Profiling via Long-Read Integration
+#' HERMELIN: Single-Cell SNV Genotyping from Nanopore Long-Read RNA-seq
 #'
-#' MERLIN genotypes single nucleotide variants (SNVs) from Oxford Nanopore
+#' HERMELIN genotypes single nucleotide variants (SNVs) from Oxford Nanopore
 #' long-read single-cell RNA sequencing data. It streams FASTQ files, extracts
 #' cell barcodes and UMIs, calls the base at one or two user-defined regions of
 #' interest (ROIs), corrects UMIs, and classifies each cell as mutant or

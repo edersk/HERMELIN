@@ -1,0 +1,17 @@
+citHeader("To cite HERMELIN in publications use:")
+
+bibentry(
+  bibtype = "Manual",
+  title   = "HERMELIN: Single-Cell SNV Genotyping from Nanopore Long-Read RNA-seq",
+  author  = person("Sebastian", "Eder"),
+  year    = "2026",
+  note    = "R package version 1.1.0",
+  url     = "https://github.com/edersk/HERMELIN",
+  textVersion = paste(
+    "Eder S (2026). HERMELIN: Single-Cell SNV Genotyping from Nanopore",
+    "Long-Read RNA-seq. R package version 1.1.0.",
+    "https://github.com/edersk/HERMELIN"
+  )
+)
+
+citFooter("Once a Zenodo DOI is minted, add doi = \"10.5281/zenodo.XXXXXXX\" above.")

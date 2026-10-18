@@ -26,7 +26,7 @@ test_that("detect_snv -> summarize_snv -> flag_snv runs end to end", {
         rep(.make_read(cbc_wt,  "CCCCCCCCCCCC", "A", "T"), 12)  # WT cell
     )
 
-    outdir <- file.path(tempdir(), paste0("merlin_test_", as.integer(Sys.time())))
+    outdir <- file.path(tempdir(), paste0("hermelin_test_", as.integer(Sys.time())))
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     on.exit(unlink(outdir, recursive = TRUE), add = TRUE)
 
