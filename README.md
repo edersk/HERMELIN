@@ -21,10 +21,12 @@ cell states.
   definite wild-type (`defWT`) from ambiguous wild-type (`ambWT`) calls.
 
 > **Regular updates and user support**
-> 
+>
 > We will continue to provide regular updates and support for HERMELIN.
 > Questions, feedback, bug reports, and feature requests are welcome via
-> [GitHub Issues](https://github.com/edersk/HERMELIN/issues).
+> GitHub Issues.
+>
+> [![GitHub Issues](https://img.shields.io/badge/Support-GitHub_Issues-181717?logo=github&logoColor=white)](https://github.com/edersk/HERMELIN/issues)
 
 ## Contents
 
@@ -68,13 +70,13 @@ Unix-like environment. See the [R parallel documentation](https://stat.ethz.ch/R
 
 ## Inputs and library compatibility
 
-| Input                  | What to provide                                                                                                                        |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| FASTQ                  | A `.fastq` or `.fastq.gz` file of Oxford Nanopore reads retaining the cell barcode, UMI, and target region.                            |
-| Target motif           | The sequence surrounding the SNV, with exactly one `N` at the variant position. Other IUPAC ambiguity codes are allowed in the flanks. |
-| Target alleles         | The mutant and wild-type bases in the orientation of the supplied motif.                                                               |
-| Barcode whitelist      | A headerless `.csv` or plain-text file with one expected cell barcode per line. For CSV input, the first column is used.               |
-| Optional phasing motif | A linked heterozygous SNP on the same transcript, with a known phase relationship to the target mutation.                              |
+| Input | What to provide |
+| --- | --- |
+| FASTQ | A `.fastq` or `.fastq.gz` file of Oxford Nanopore reads retaining the cell barcode, UMI, and target region. |
+| Target motif | The sequence surrounding the SNV, with exactly one `N` at the variant position. Other IUPAC ambiguity codes are allowed in the flanks. |
+| Target alleles | The mutant and wild-type bases in the orientation of the supplied motif. |
+| Barcode whitelist | A headerless `.csv` or plain-text file with one expected cell barcode per line. For CSV input, the first column is used. |
+| Optional phasing motif | A linked heterozygous SNP on the same transcript, with a known phase relationship to the target mutation. |
 
 Use a sample-specific list of retained scRNA-seq cell barcodes when you want
 the output to represent the cells in that experiment. A chemistry-wide
@@ -277,11 +279,11 @@ can be phased.
 
 For the example allele labels and `minor_on_major = "MUT"`, the key logic is:
 
-| Target observation | Linked SNP observation      | Interpretation                                                                                                   |
-| ------------------ | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Target `MUT`       | SNP `MUT`                   | Supports a phase-consistent mutant call.                                                                         |
-| Target `WT`        | SNP `MUT`                   | Supports `defWT`: the marker haplotype expected to carry the mutation instead carries the wild-type target base. |
-| Target `WT`        | SNP `WT`, or unresolved SNP | Remains `ambWT`: the mutant-linked haplotype was not resolved as wild-type.                                      |
+| Target observation | Linked SNP observation | Interpretation |
+| --- | --- | --- |
+| Target `MUT` | SNP `MUT` | Supports a phase-consistent mutant call. |
+| Target `WT` | SNP `MUT` | Supports `defWT`: the marker haplotype expected to carry the mutation instead carries the wild-type target base. |
+| Target `WT` | SNP `WT`, or unresolved SNP | Remains `ambWT`: the mutant-linked haplotype was not resolved as wild-type. |
 
 These rows describe molecule-level evidence. Final cell calls combine the
 retained molecules and account for mutant evidence and phase conflicts.
@@ -296,13 +298,13 @@ original cDNA library.
 
 ### Unphased target calls
 
-| `mutation_call`   | `major_call_simple` | Meaning                                                                                                                                               |
-| ----------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MUT`             | `MUT`               | Retained called UMIs support the mutant allele.                                                                                                       |
-| `WT`              | `WT`                | Retained called UMIs support the wild-type allele. This does not exclude a heterozygous mutation without phasing.                                     |
-| `MUT_WT`          | `MUT`               | Both mutant and wild-type transcript molecules were detected. This is an RNA observation, not independent confirmation of genomic zygosity.           |
-| `below_threshold` | `NA`                | No UMI passed both the read-depth and allele-consensus requirements.                                                                                  |
-| `no_np_data`      | `NA`                | An expected barcode is absent from the filtered summary. This can reflect absent reads or earlier filtering, not necessarily zero raw Nanopore reads. |
+| `mutation_call` | `major_call_simple` | Meaning |
+| --- | --- | --- |
+| `MUT` | `MUT` | Retained called UMIs support the mutant allele. |
+| `WT` | `WT` | Retained called UMIs support the wild-type allele. This does not exclude a heterozygous mutation without phasing. |
+| `MUT_WT` | `MUT` | Both mutant and wild-type transcript molecules were detected. This is an RNA observation, not independent confirmation of genomic zygosity. |
+| `below_threshold` | `NA` | No UMI passed both the read-depth and allele-consensus requirements. |
+| `no_np_data` | `NA` | An expected barcode is absent from the filtered summary. This can reflect absent reads or earlier filtering, not necessarily zero raw Nanopore reads. |
 
 `has_np_data` indicates whether the barcode has a summary entry with target
 counts. It does not report raw FASTQ coverage independently of filtering.
@@ -316,15 +318,15 @@ usable SNP data were supplied. The output can contain fallback labels when
 phasing is disabled, so the presence of `phased_call` alone does not establish
 that phasing was performed.
 
-| `phased_call`                    | `phased_call_simple` | Meaning                                                                                                         |
-| -------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `MUT_mnsnp`                      | `MUT`                | Mutant evidence supported by the expected SNP allele.                                                           |
-| `MUT_non_mnsnp`                  | `MUT`                | Mutant evidence without resolved SNP support.                                                                   |
-| `MUT_both`                       | `MUT`                | Both SNP-supported and SNP-unresolved mutant UMIs were observed.                                                |
-| `def_WT`                         | `defWT`              | Wild-type target evidence on the marker haplotype expected to carry the mutation, with no retained mutant call. |
-| `amb_WT`                         | `ambWT`              | Wild-type target evidence without enough phase information to assign `defWT`.                                   |
-| `MUT_ERROR` / `ERROR1`           | `NA`                 | Target and marker evidence conflict with the configured phase relationship. Review these cells.                 |
-| `below_threshold` / `no_np_data` | `NA`                 | No qualifying call.                                                                                             |
+| `phased_call` | `phased_call_simple` | Meaning |
+| --- | --- | --- |
+| `MUT_mnsnp` | `MUT` | Mutant evidence supported by the expected SNP allele. |
+| `MUT_non_mnsnp` | `MUT` | Mutant evidence without resolved SNP support. |
+| `MUT_both` | `MUT` | Both SNP-supported and SNP-unresolved mutant UMIs were observed. |
+| `def_WT` | `defWT` | Wild-type target evidence on the marker haplotype expected to carry the mutation, with no retained mutant call. |
+| `amb_WT` | `ambWT` | Wild-type target evidence without enough phase information to assign `defWT`. |
+| `MUT_ERROR` / `ERROR1` | `NA` | Target and marker evidence conflict with the configured phase relationship. Review these cells. |
+| `below_threshold` / `no_np_data` | `NA` | No qualifying call. |
 
 Use `defWT` as the phase-supported wild-type comparison group when available.
 Keep `ambWT` separate rather than treating it as a confirmed wild-type group.
@@ -333,13 +335,13 @@ Keep `ambWT` separate rather than treating it as a confirmed wild-type group.
 
 These settings apply to different stages of the analysis:
 
-| Setting                                                      | Applies to                    | Meaning                                                                                                                                |
-| ------------------------------------------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `threshold`                                                  | Each corrected UMI            | Minimum number of target-called reads (`MUT` + `WT`) required, inclusive.                                                              |
-| `consensus_threshold`                                        | Allele calling within a UMI   | Minimum fraction of reads supporting one allele, default `0.8`. The same consensus requirement is used for the minor SNP when phasing. |
-| `minor_percentage`                                           | Phasing coverage within a UMI | Minimum minor-SNP read count relative to target-called read count, default `0.2`. It is not a cell-level VAF cutoff.                   |
-| `read1_mismatch`, `major_roi_mismatch`, `minor_roi_mismatch` | Read matching                 | Allowed edit distances for sequence detection.                                                                                         |
-| `umi_mismatch`                                               | UMI correction within a cell  | Maximum edit distance for collapsing a less abundant UMI into a more abundant one, default `2L`.                                       |
+| Setting | Applies to | Meaning |
+| --- | --- | --- |
+| `threshold` | Each corrected UMI | Minimum number of target-called reads (`MUT` + `WT`) required, inclusive. |
+| `consensus_threshold` | Allele calling within a UMI | Minimum fraction of reads supporting one allele, default `0.8`. The same consensus requirement is used for the minor SNP when phasing. |
+| `minor_percentage` | Phasing coverage within a UMI | Minimum minor-SNP read count relative to target-called read count, default `0.2`. It is not a cell-level VAF cutoff. |
+| `read1_mismatch`, `major_roi_mismatch`, `minor_roi_mismatch` | Read matching | Allowed edit distances for sequence detection. |
+| `umi_mismatch` | UMI correction within a cell | Maximum edit distance for collapsing a less abundant UMI into a more abundant one, default `2L`. |
 
 `summarize_snv()` returns estimates in `res$knee_points` and writes
 `<session>_umi_distribution.pdf`. Inspect the ranked reads-per-UMI curve and
@@ -363,9 +365,9 @@ the same sample and its cell names match `flags$barcode_10x`.
 
 `flag_snv()` returns both barcode formats:
 
-| Output column | Example              | Format                                            |
-| ------------- | -------------------- | ------------------------------------------------- |
-| `cbc`         | `AAACCCAAGAAACCAT`   | Cell barcode without a suffix.                    |
+| Output column | Example | Format |
+| --- | --- | --- |
+| `cbc` | `AAACCCAAGAAACCAT` | Cell barcode without a suffix. |
 | `barcode_10x` | `AAACCCAAGAAACCAT-1` | Cell barcode with an automatically appended `-1`. |
 
 HERMELIN constructs `barcode_10x` using `paste0(cbc, "-1")`. It does not
@@ -406,18 +408,18 @@ See the [SeuratObject metadata documentation](https://satijalab.github.io/seurat
 
 ## Output files
 
-| File                                   | Written by        | Contents                                                                                                                                                                                   |
-| -------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `<session>_snv_table.csv`              | `detect_snv()`    | One row per retained read, including `read_id`, `CBC`, `UMI`, `strand`, and target/minor bases and statuses. `enriched = TRUE` adds diagnostic columns.                                    |
-| `<session>_log.csv`                    | `detect_snv()`    | Run parameters and read-filtering counts.                                                                                                                                                  |
-| `<session>_snv_summary.csv`            | `summarize_snv()` | One row per cell. Semicolon-separated columns contain comma-separated counts per corrected UMI. Read with `data.table::fread(path, sep = ";")`, or pass the file directly to `flag_snv()`. |
-| `<session>_umi_frequencies.csv`        | `summarize_snv()` | Ranked reads per corrected UMI.                                                                                                                                                            |
-| `<session>_thresholds.csv`             | `summarize_snv()` | Threshold estimates and suggested range.                                                                                                                                                   |
-| `<session>_major_roi_frequency.csv`    | `summarize_snv()` | Target allele frequencies.                                                                                                                                                                 |
-| `<session>_minor_roi_frequency.csv`    | `summarize_snv()` | Marker allele frequencies, when minor-ROI data are available.                                                                                                                              |
-| `<session>_snp_frequency_combined.csv` | `summarize_snv()` | Combined target and marker frequency tables, where available.                                                                                                                              |
-| `<session>_umi_distribution.pdf`       | `summarize_snv()` | Diagnostic plots, unless `skip_plots = TRUE`.                                                                                                                                              |
-| `<session>_flags.csv`                  | `flag_snv()`      | Per-cell calls, written when `path_output_folder` is supplied.                                                                                                                             |
+| File | Written by | Contents |
+| --- | --- | --- |
+| `<session>_snv_table.csv` | `detect_snv()` | One row per retained read, including `read_id`, `CBC`, `UMI`, `strand`, and target/minor bases and statuses. `enriched = TRUE` adds diagnostic columns. |
+| `<session>_log.csv` | `detect_snv()` | Run parameters and read-filtering counts. |
+| `<session>_snv_summary.csv` | `summarize_snv()` | One row per cell. Semicolon-separated columns contain comma-separated counts per corrected UMI. Read with `data.table::fread(path, sep = ";")`, or pass the file directly to `flag_snv()`. |
+| `<session>_umi_frequencies.csv` | `summarize_snv()` | Ranked reads per corrected UMI. |
+| `<session>_thresholds.csv` | `summarize_snv()` | Threshold estimates and suggested range. |
+| `<session>_major_roi_frequency.csv` | `summarize_snv()` | Target allele frequencies. |
+| `<session>_minor_roi_frequency.csv` | `summarize_snv()` | Marker allele frequencies, when minor-ROI data are available. |
+| `<session>_snp_frequency_combined.csv` | `summarize_snv()` | Combined target and marker frequency tables, where available. |
+| `<session>_umi_distribution.pdf` | `summarize_snv()` | Diagnostic plots, unless `skip_plots = TRUE`. |
+| `<session>_flags.csv` | `flag_snv()` | Per-cell calls, written when `path_output_folder` is supplied. |
 
 The final table contains `cbc`, `barcode_10x`, `has_np_data`, `mutation_call`,
 `major_call_simple`, `phased_call`, and `phased_call_simple`.
@@ -438,50 +440,50 @@ alignment for reads that did not match exactly.
 
 #### Session and I/O
 
-| Argument             | Default  | Description                                                                                                                                                                                                       |
-| -------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `session_name`       | required | Prefix for all output files. Letters, digits, `_` and `-` only.                                                                                                                                                   |
-| `path_input_file`    | required | Path to the FASTQ file (`.fastq` or `.fastq.gz`).                                                                                                                                                                 |
-| `path_output_folder` | required | Existing directory where `<session>_snv_table.csv` and `<session>_log.csv` are written.                                                                                                                           |
-| `n_cores`            | required | CPU cores for the pairwise-alignment pass. Automatically capped at `parallel::detectCores() - 1`.                                                                                                                 |
-| `n_reads_per_chunk`  | `1e5`    | Reads per streaming chunk. Larger chunks are faster but use more memory.                                                                                                                                          |
+| Argument             | Default  | Description                                                                                                                                 |
+| -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `session_name`       | required | Prefix for all output files. Letters, digits, `_` and `-` only.                                                                             |
+| `path_input_file`    | required | Path to the FASTQ file (`.fastq` or `.fastq.gz`).                                                                                           |
+| `path_output_folder` | required | Existing directory where `<session>_snv_table.csv` and `<session>_log.csv` are written.                                                     |
+| `n_cores`            | required | CPU cores for the pairwise-alignment pass. Automatically capped at `parallel::detectCores() - 1`.                                           |
+| `n_reads_per_chunk`  | `1e5`    | Reads per streaming chunk. Larger chunks are faster but use more memory.                                                                    |
 | `enriched`           | `FALSE`  | If `TRUE`, appends 22 diagnostic columns (read length, adapter/ROI match widths, substitution/insertion/deletion counts, Q-scores, match method). Use for QC and publication analyses; not needed for genotyping. |
 
 #### Read 1 adapter and barcode layout
 
-| Argument             | Default  | Description                                                                                                                                                       |
-| -------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `read1_seq`          | required | Adapter sequence that immediately precedes the cell barcode (A/C/G/T only), e.g. `CTACACGACGCTCTTCCGATCT` for 10x 3' libraries.                                   |
+| Argument             | Default  | Description                                                                                                                                 |
+| -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `read1_seq`          | required | Adapter sequence that immediately precedes the cell barcode (A/C/G/T only), e.g. `CTACACGACGCTCTTCCGATCT` for 10x 3' libraries.             |
 | `read1_mismatch`     | required | Maximum edit distance (substitutions + indels) allowed when matching the adapter. Reads with no match, or with a match on both strands (chimeric), are discarded. |
-| `read1_within_range` | `70`     | Number of bases from the read start (on each strand) in which the adapter is searched.                                                                            |
-| `len_CBC`            | `16`     | Cell barcode length extracted directly after the adapter match. Downstream whitelist matching currently assumes 16-base barcodes.                                 |
-| `len_UMI`            | `12`     | UMI length, taken directly after the barcode. Match this to the library chemistry.                                                                                |
+| `read1_within_range` | `70`     | Number of bases from the read start (on each strand) in which the adapter is searched.                                                      |
+| `len_CBC`            | `16`     | Cell barcode length extracted directly after the adapter match. Downstream whitelist matching currently assumes 16-base barcodes.                                                                                |
+| `len_UMI`            | `12`     | UMI length, taken directly after the barcode. Match this to the library chemistry.                                                                                               |
 
 #### Poly(N) tail filter
 
-| Argument         | Default | Description                                                                                                                                                                    |
-| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Argument         | Default | Description                                                                                                                                           |
+| ---------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `polyN_base`     | `"T"`   | Base of the homopolymer searched for downstream of the UMI (poly(T) for 3' GEX). Set to `NULL` to disable the filter, e.g. for 5' GEX libraries where the TSO follows the UMI. |
-| `polyN_length`   | `10`    | Length of the homopolymer match sought in the downstream search window. Ignored when `polyN_base = NULL`.                                                                      |
-| `polyN_mismatch` | `2`     | Number of non-`polyN_base` positions tolerated within that window. Ignored when `polyN_base = NULL`.                                                                           |
+| `polyN_length`   | `10`    | Length of the homopolymer match sought in the downstream search window. Ignored when `polyN_base = NULL`.                                                                          |
+| `polyN_mismatch` | `2`     | Number of non-`polyN_base` positions tolerated within that window. Ignored when `polyN_base = NULL`.                                                  |
 
 #### Major ROI (the SNV to genotype)
 
-| Argument             | Default  | Description                                                                                                                                    |
-| -------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `major_roi_seq`      | required | Flanking sequence with exactly one `N` at the SNV position. IUPAC codes (R, Y, S, W, K, M, B, D, H, V) are allowed elsewhere.                  |
-| `major_roi_mismatch` | required | Maximum edit distance for the fuzzy ROI search (pass 2). Reads that match more than once are left uncalled.                                    |
-| `major_roi_mut`      | `NULL`   | Base that labels a read `MUT` in `major_status`. Must be given together with `major_roi_wt`.                                                   |
+| Argument             | Default  | Description                                                                                                                                 |
+| -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `major_roi_seq`      | required | Flanking sequence with exactly one `N` at the SNV position. IUPAC codes (R, Y, S, W, K, M, B, D, H, V) are allowed elsewhere.                |
+| `major_roi_mismatch` | required | Maximum edit distance for the fuzzy ROI search (pass 2). Reads that match more than once are left uncalled.                                 |
+| `major_roi_mut`      | `NULL`   | Base that labels a read `MUT` in `major_status`. Must be given together with `major_roi_wt`.                                                |
 | `major_roi_wt`       | `NULL`   | Base that labels a read `WT` in `major_status`. If both are `NULL`, only the raw `major_base` is reported and `summarize_snv()` cannot be run. |
 
 #### Minor ROI (optional phasing SNP)
 
-| Argument             | Default | Description                                                                                                                                  |
-| -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Argument             | Default | Description                                                                                                                           |
+| -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `minor_roi_seq`      | `NULL`  | Flanking sequence of a heterozygous SNP on the same transcript, with one `N` at the SNP position. `NULL` skips minor ROI detection entirely. |
-| `minor_roi_mismatch` | `NULL`  | Maximum edit distance for the minor ROI search. Required when `minor_roi_seq` is given.                                                      |
-| `minor_roi_mut`      | `NULL`  | Marker allele labeled `MUT` in `minor_status`, not necessarily a disease-associated allele. Must be given together with `minor_roi_wt`.      |
-| `minor_roi_wt`       | `NULL`  | Other marker allele, labeled `WT` in `minor_status`. These labels distinguish the two SNP alleles.                                           |
+| `minor_roi_mismatch` | `NULL`  | Maximum edit distance for the minor ROI search. Required when `minor_roi_seq` is given.                                              |
+| `minor_roi_mut`      | `NULL`  | Marker allele labeled `MUT` in `minor_status`, not necessarily a disease-associated allele. Must be given together with `minor_roi_wt`.                                          |
+| `minor_roi_wt`       | `NULL`  | Other marker allele, labeled `WT` in `minor_status`. These labels distinguish the two SNP alleles.                                                                                       |
 
 **Returns** `NULL` invisibly; results are written to disk.
 
@@ -494,28 +496,28 @@ corrected UMI, and estimates reads-per-UMI thresholds with several knee-point
 methods (geometric knee, inflection, UIK, CellRanger-style, Otsu, Gaussian
 mixture).
 
-| Argument             | Default  | Description                                                                                                                                                                                                           |
-| -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `session_name`       | required | Prefix for output files.                                                                                                                                                                                              |
-| `path_snv_table`     | required | Path to `<session>_snv_table.csv` written by `detect_snv()`. Only the columns needed for summarization are read, so enriched tables are fine.                                                                         |
+| Argument             | Default  | Description                                                                                                                                 |
+| -------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `session_name`       | required | Prefix for output files.                                                                                                                    |
+| `path_snv_table`     | required | Path to `<session>_snv_table.csv` written by `detect_snv()`. Only the columns needed for summarization are read, so enriched tables are fine. |
 | `path_barcodes`      | required | Cell-barcode whitelist (`.csv` read as the first column, otherwise one barcode per line). Whitelist entries are normalized to their first 16 bases and matched against extracted CBCs. Nonmatching reads are dropped. |
-| `path_output_folder` | required | Existing directory for the summary, frequency tables, thresholds and diagnostic PDF.                                                                                                                                  |
-| `umi_mismatch`       | `2L`     | Maximum Levenshtein distance for UMI collapsing. A UMI within this distance of a more frequent UMI in the same cell is merged into it.                                                                                |
-| `n_cores`            | `4L`     | CPU cores. Capped at `parallel::detectCores() - 1`.                                                                                                                                                                   |
-| `skip_plots`         | `FALSE`  | If `TRUE`, do not write `<session>_umi_distribution.pdf`.                                                                                                                                                             |
+| `path_output_folder` | required | Existing directory for the summary, frequency tables, thresholds and diagnostic PDF.                                                        |
+| `umi_mismatch`       | `2L`     | Maximum Levenshtein distance for UMI collapsing. A UMI within this distance of a more frequent UMI in the same cell is merged into it.        |
+| `n_cores`            | `4L`     | CPU cores. Capped at `parallel::detectCores() - 1`.                                                                                        |
+| `skip_plots`         | `FALSE`  | If `TRUE`, do not write `<session>_umi_distribution.pdf`.                                                                                   |
 
 **Returns** (invisibly) a list with:
 
-| Element           | Contents                                                                                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `summary`         | Per-cell `data.table` (same content as `<session>_snv_summary.csv`); can be passed directly to `flag_snv()`                                             |
-| `umi_frequencies` | Reads per corrected UMI, ranked                                                                                                                         |
+| Element           | Contents                                                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| `summary`         | Per-cell `data.table` (same content as `<session>_snv_summary.csv`); can be passed directly to `flag_snv()` |
+| `umi_frequencies` | Reads per corrected UMI, ranked                                                                             |
 | `knee_points`     | List of threshold estimates: `upper_knee`, `inflection`, `lower_knee`, `uik`, `cellranger`, `otsu`, `mixture`, plus the suggested `lower`/`upper` range |
-| `snp_frequencies` | Major/minor allele frequency tables                                                                                                                     |
-| `phasing_viable`  | `TRUE` when both minor alleles each account for at least 10% of the minor-ROI UMI counts. A feasibility heuristic, not proof of the phase relationship  |
-| `phasing_message` | Human-readable phasing assessment                                                                                                                       |
-| `has_minor_roi`   | Whether minor ROI data was found in the input                                                                                                           |
-| `statistics`      | Read and cell counts at each filtering stage                                                                                                            |
+| `snp_frequencies` | Major/minor allele frequency tables                                                                        |
+| `phasing_viable`  | `TRUE` when both minor alleles each account for at least 10% of the minor-ROI UMI counts. A feasibility heuristic, not proof of the phase relationship                                                     |
+| `phasing_message` | Human-readable phasing assessment                                                                          |
+| `has_minor_roi`   | Whether minor ROI data was found in the input                                                              |
+| `statistics`      | Read and cell counts at each filtering stage                                                               |
 
 ### `flag_snv()`
 
@@ -525,18 +527,18 @@ reads (`MUT` + `WT`) reach `threshold`, called `MUT` or `WT` if at least
 set of called UMIs. With phasing enabled, each called UMI is additionally
 qualified by its minor SNP status.
 
-| Argument              | Default       | Description                                                                                                                                                                                                                             |
-| --------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `path_snv_summary`    | required      | Path to `<session>_snv_summary.csv`, or the `summary` `data.table` returned by `summarize_snv()`.                                                                                                                                       |
-| `path_barcodes`       | `NULL`        | Optional full barcode whitelist used for **backfilling**: barcodes in this list that are absent from the filtered summary are added with `mutation_call = "no_np_data"`. This does not establish that no raw reads existed.             |
-| `path_barcode_filter` | `NULL`        | Optional barcode list used for **filtering**: only barcodes in this list are analysed and reported.                                                                                                                                     |
-| `path_output_folder`  | `NULL`        | Directory for `<session>_flags.csv`. If `NULL`, nothing is written and the result is only returned.                                                                                                                                     |
-| `session_name`        | `"snv_flags"` | Prefix for the output file.                                                                                                                                                                                                             |
-| `threshold`           | `10`          | Minimum total target-called reads (`MUT` + `WT`) per corrected UMI, inclusive. Inspect the estimates and diagnostic plots from `summarize_snv()` before choosing a value. This is a reads-per-UMI threshold, not a per-cell VAF cutoff. |
-| `consensus_threshold` | `0.8`         | Fraction of a UMI's reads that must support one allele for the UMI to be called `MUT` or `WT`. UMIs without sufficient consensus are ignored. A cell with no remaining called UMIs is reported as `below_threshold`.                    |
-| `use_phasing`         | `FALSE`       | Use the minor SNP columns to produce `phased_call`. Falls back to unphased calls (with a warning) if the summary has no SNP columns.                                                                                                    |
-| `minor_percentage`    | `0.2`         | A UMI's minor SNP status is only used if its minor reads are at least this fraction of its major reads; otherwise the minor status is `none`.                                                                                           |
-| `minor_on_major`      | `"MUT"`       | Which minor SNP allele (`"MUT"` or `"WT"`) is expected on the same transcript copy as the major mutation. Determines whether an observed minor SNP confirms (`MUT_mnsnp`, `def_WT`) or contradicts (`MUT_ERROR`) the major call.        |
+| Argument              | Default       | Description                                                                                                                                                  |
+| --------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `path_snv_summary`    | required      | Path to `<session>_snv_summary.csv`, or the `summary` `data.table` returned by `summarize_snv()`.                                                            |
+| `path_barcodes`       | `NULL`        | Optional full barcode whitelist used for **backfilling**: barcodes in this list that are absent from the filtered summary are added with `mutation_call = "no_np_data"`. This does not establish that no raw reads existed. |
+| `path_barcode_filter` | `NULL`        | Optional barcode list used for **filtering**: only barcodes in this list are analysed and reported.                                                           |
+| `path_output_folder`  | `NULL`        | Directory for `<session>_flags.csv`. If `NULL`, nothing is written and the result is only returned.                                                          |
+| `session_name`        | `"snv_flags"` | Prefix for the output file.                                                                                                                                  |
+| `threshold`           | `10`          | Minimum total target-called reads (`MUT` + `WT`) per corrected UMI, inclusive. Inspect the estimates and diagnostic plots from `summarize_snv()` before choosing a value. This is a reads-per-UMI threshold, not a per-cell VAF cutoff.                                        |
+| `consensus_threshold` | `0.8`         | Fraction of a UMI's reads that must support one allele for the UMI to be called `MUT` or `WT`. UMIs without sufficient consensus are ignored. A cell with no remaining called UMIs is reported as `below_threshold`.                                  |
+| `use_phasing`         | `FALSE`       | Use the minor SNP columns to produce `phased_call`. Falls back to unphased calls (with a warning) if the summary has no SNP columns.                          |
+| `minor_percentage`    | `0.2`         | A UMI's minor SNP status is only used if its minor reads are at least this fraction of its major reads; otherwise the minor status is `none`.                 |
+| `minor_on_major`      | `"MUT"`       | Which minor SNP allele (`"MUT"` or `"WT"`) is expected on the same transcript copy as the major mutation. Determines whether an observed minor SNP confirms (`MUT_mnsnp`, `def_WT`) or contradicts (`MUT_ERROR`) the major call. |
 
 **Returns** a `data.table` with one row per cell: `cbc`, `barcode_10x`,
 `has_np_data`, `mutation_call`, `major_call_simple`, `phased_call`,
