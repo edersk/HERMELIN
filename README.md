@@ -466,7 +466,7 @@ did not match exactly.
 #### Session and I/O
 
 | Argument             | Default  | Description                                                                                                                                                                                                       |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `session_name`       | required | Prefix for all output files. Letters, digits, `_` and `-` only.                                                                                                                                                   |
 | `path_input_file`    | required | Path to the FASTQ file (`.fastq` or `.fastq.gz`).                                                                                                                                                                 |
 | `path_output_folder` | required | Existing directory where `<session>_snv_table.csv` and `<session>_log.csv` are written.                                                                                                                           |
@@ -477,7 +477,7 @@ did not match exactly.
 #### Read 1 adapter and barcode layout
 
 | Argument             | Default  | Description                                                                                                                                                       |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `read1_seq`          | required | Adapter sequence that immediately precedes the cell barcode (A/C/G/T only), e.g. `CTACACGACGCTCTTCCGATCT` for 10x 3' libraries.                                   |
 | `read1_mismatch`     | required | Maximum edit distance (substitutions + indels) allowed when matching the adapter. Reads with no match, or with a match on both strands (chimeric), are discarded. |
 | `read1_within_range` | `70`     | Number of bases from the read start (on each strand) in which the adapter is searched.                                                                            |
@@ -487,7 +487,7 @@ did not match exactly.
 #### Poly(N) tail filter
 
 | Argument         | Default | Description                                                                                                                                                                    |
-|-------------|-------------|----------------------------------------------|
+|---------------|---------------|------------------------------------------|
 | `polyN_base`     | `"T"`   | Base of the homopolymer searched for downstream of the UMI (poly(T) for 3' GEX). Set to `NULL` to disable the filter, e.g. for 5' GEX libraries where the TSO follows the UMI. |
 | `polyN_length`   | `10`    | Length of the homopolymer match sought in the downstream search window. Ignored when `polyN_base = NULL`.                                                                      |
 | `polyN_mismatch` | `2`     | Number of non-`polyN_base` positions tolerated within that window. Ignored when `polyN_base = NULL`.                                                                           |
@@ -495,7 +495,7 @@ did not match exactly.
 #### Major ROI (the SNV to genotype)
 
 | Argument             | Default  | Description                                                                                                                                    |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `major_roi_seq`      | required | Flanking sequence with exactly one `N` at the SNV position. IUPAC codes (R, Y, S, W, K, M, B, D, H, V) are allowed elsewhere.                  |
 | `major_roi_mismatch` | required | Maximum edit distance for the fuzzy ROI search (pass 2). Reads that match more than once are left uncalled.                                    |
 | `major_roi_mut`      | `NULL`   | Base that labels a read `MUT` in `major_status`. Must be given together with `major_roi_wt`.                                                   |
@@ -504,7 +504,7 @@ did not match exactly.
 #### Minor ROI (optional phasing SNP)
 
 | Argument             | Default | Description                                                                                                                                  |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `minor_roi_seq`      | `NULL`  | Flanking sequence of a heterozygous SNP on the same transcript, with one `N` at the SNP position. `NULL` skips minor ROI detection entirely. |
 | `minor_roi_mismatch` | `NULL`  | Maximum edit distance for the minor ROI search. Required when `minor_roi_seq` is given.                                                      |
 | `minor_roi_mut`      | `NULL`  | Marker allele labeled `MUT` in `minor_status`, not necessarily a disease-associated allele. Must be given together with `minor_roi_wt`.      |
@@ -522,7 +522,7 @@ knee-point methods (geometric knee, inflection, UIK, CellRanger-style,
 Otsu, Gaussian mixture).
 
 | Argument             | Default  | Description                                                                                                                                                                                                           |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `session_name`       | required | Prefix for output files.                                                                                                                                                                                              |
 | `path_snv_table`     | required | Path to `<session>_snv_table.csv` written by `detect_snv()`. Only the columns needed for summarization are read, so enriched tables are fine.                                                                         |
 | `path_barcodes`      | required | Cell-barcode whitelist (`.csv` read as the first column, otherwise one barcode per line). Whitelist entries are normalized to their first 16 bases and matched against extracted CBCs. Nonmatching reads are dropped. |
@@ -534,7 +534,7 @@ Otsu, Gaussian mixture).
 **Returns** (invisibly) a list with:
 
 | Element           | Contents                                                                                                                                                |
-|-----------------|-------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | `summary`         | Per-cell `data.table` (same content as `<session>_snv_summary.csv`); can be passed directly to `flag_snv()`                                             |
 | `umi_frequencies` | Reads per corrected UMI, ranked                                                                                                                         |
 | `knee_points`     | List of threshold estimates: `upper_knee`, `inflection`, `lower_knee`, `uik`, `cellranger`, `otsu`, `mixture`, plus the suggested `lower`/`upper` range |
@@ -553,7 +553,7 @@ derived from the set of called UMIs. With phasing enabled, each called
 UMI is additionally qualified by its minor SNP status.
 
 | Argument              | Default       | Description                                                                                                                                                                                                                             |
-|--------------|--------------|--------------------------------------------|
+|----------------|----------------|----------------------------------------|
 | `path_snv_summary`    | required      | Path to `<session>_snv_summary.csv`, or the `summary` `data.table` returned by `summarize_snv()`.                                                                                                                                       |
 | `path_barcodes`       | `NULL`        | Optional full barcode whitelist used for **backfilling**: barcodes in this list that are absent from the filtered summary are added with `mutation_call = "no_np_data"`. This does not establish that no raw reads existed.             |
 | `path_barcode_filter` | `NULL`        | Optional barcode list used for **filtering**: only barcodes in this list are analysed and reported.                                                                                                                                     |
@@ -574,23 +574,43 @@ calls](#interpret-genotype-calls)).
 
 MIT © 2026 Sebastian Eder
 
-Shortcode	Rendered Subject	Description
-:octocat:	Octocat Mascot	GitHub's official mascot
-:trollface:	Trollface meme	Classic internet meme
-:neckbeard:	Neckbeard character	Legacy graphic
-:shipit: / :squirrel:	Squirrel / Ship It	GitHub's internal "Ship It" squirrel
-:bowtie:	Bowtie	GitHub custom icon
-:feelsgood:	Feels Good	Legacy meme icon
-:finnadie:	Finn	Legacy pop culture icon
-:goberserk:	Berserk face	Legacy reaction icon
-:godmode:	Godmode	Legacy video game reference
-:hurtrealbad:	Doom hurt face	Legacy video game icon
-:rage1: to :rage4:	Rage comics	Progressive comic angry faces
-:suspect:	Suspect face	Legacy illustration
+Shortcode Rendered Subject Description 
+:octocat: 
+Octocat Mascot GitHub's
+official mascot 
+:trollface: 
+Trollface meme Classic internet meme
 
-[!NOTE] renders a blue Info circle icon (octicon-info).
+:neckbeard: 
+Neckbeard character Legacy graphic 
+:shipit:
+/ 
+:squirrel:
 
-[!TIP] renders a green Lightbulb icon (octicon-light-bulb).
+Squirrel / Ship It GitHub's internal "Ship It" squirrel 
+:bowtie:
+Bowtie
+GitHub custom icon 
+:feelsgood:
+Feels Good Legacy meme icon 
+:finnadie:
+
+Finn Legacy pop culture icon 
+:goberserk:
+Berserk face Legacy reaction
+icon 
+:godmode:
+Godmode Legacy video game reference 
+:hurtrealbad:
+Doom
+hurt face Legacy video game icon :rage1: to 
+:rage4:
+Rage comics
+Progressive comic angry faces :suspect: Suspect face Legacy illustration
+
+[!NOTE]
+
+[!TIP]
 
 [!IMPORTANT] renders a purple Chat/Exclamation icon (octicon-report).
 
