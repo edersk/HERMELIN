@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # HERMELIN
 
 **H**aplotype-resolved **E**nrichment of **R**NA for **M**utation and
@@ -28,7 +22,8 @@ and wild-type cell states.
     distinguish definite wild-type (`defWT`) from ambiguous wild-type
     (`ambWT`) calls.
 
-> [!TIP] **Regular updates and user support**
+> [!TIP] 
+> **Regular updates and user support**
 >
 > We will continue to provide regular updates and support for HERMELIN.
 > Questions, feedback, bug reports, and feature requests are welcome via
