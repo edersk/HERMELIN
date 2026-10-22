@@ -574,28 +574,26 @@ calls](#interpret-genotype-calls)).
 
 MIT © 2026 Sebastian Eder
 
--   **`[!NOTE]`** renders a blue Info circle icon (`octicon-info`).
+Shortcode	Rendered Subject	Description
+:octocat:	Octocat Mascot	GitHub's official mascot
+:trollface:	Trollface meme	Classic internet meme
+:neckbeard:	Neckbeard character	Legacy graphic
+:shipit: / :squirrel:	Squirrel / Ship It	GitHub's internal "Ship It" squirrel
+:bowtie:	Bowtie	GitHub custom icon
+:feelsgood:	Feels Good	Legacy meme icon
+:finnadie:	Finn	Legacy pop culture icon
+:goberserk:	Berserk face	Legacy reaction icon
+:godmode:	Godmode	Legacy video game reference
+:hurtrealbad:	Doom hurt face	Legacy video game icon
+:rage1: to :rage4:	Rage comics	Progressive comic angry faces
+:suspect:	Suspect face	Legacy illustration
 
--   **`[!TIP]`** renders a green Lightbulb icon (`octicon-light-bulb`).
+[!NOTE] renders a blue Info circle icon (octicon-info).
 
--   **`[!IMPORTANT]`** renders a purple Chat/Exclamation icon
-    (`octicon-report`).
+[!TIP] renders a green Lightbulb icon (octicon-light-bulb).
 
--   **`[!WARNING]`** renders an amber Alert triangle (`octicon-alert`).
+[!IMPORTANT] renders a purple Chat/Exclamation icon (octicon-report).
 
--   **`[!CAUTION]`** renders a red Stop octagon (`octicon-stop`).
+[!WARNING] renders an amber Alert triangle (octicon-alert).
 
-| Shortcode                 | Rendered Subject    | Description                          |
-|---------------------------|---------------------|--------------------------------------|
-| `:octocat:`               | Octocat Mascot      | GitHub's official mascot             |
-| `:trollface:`             | Trollface meme      | Classic internet meme                |
-| `:neckbeard:`             | Neckbeard character | Legacy graphic                       |
-| `:shipit:` / `:squirrel:` | Squirrel / Ship It  | GitHub's internal "Ship It" squirrel |
-| `:bowtie:`                | Bowtie              | GitHub custom icon                   |
-| `:feelsgood:`             | Feels Good          | Legacy meme icon                     |
-| `:finnadie:`              | Finn                | Legacy pop culture icon              |
-| `:goberserk:`             | Berserk face        | Legacy reaction icon                 |
-| `:godmode:`               | Godmode             | Legacy video game reference          |
-| `:hurtrealbad:`           | Doom hurt face      | Legacy video game icon               |
-| `:rage1:` to `:rage4:`    | Rage comics         | Progressive comic angry faces        |
-| `:suspect:`               | Suspect face        | Legacy illustration                  |
+[!CAUTION] renders a red Stop octagon (octicon-stop).
