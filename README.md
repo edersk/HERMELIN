@@ -22,8 +22,7 @@ and wild-type cell states.
     distinguish definite wild-type (`defWT`) from ambiguous wild-type
     (`ambWT`) calls.
 
-> [!TIP] 
-> **Regular updates and user support**
+> [!NOTE]  **Regular updates and user support**
 >
 > We will continue to provide regular updates and support for HERMELIN.
 > Questions, feedback, bug reports, and feature requests are welcome via
